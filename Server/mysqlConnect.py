@@ -39,12 +39,12 @@ def InsertTD(datakey,score,dmy):
         print("ERROR")
     else :
         # new DataBase datekey int unsigned (primarykey) ,scorepermin float , dmy date~
-        sql = f"INSERT INTO TimeData(datekey,scorepermin,dmy) VALUES({datakey},{scorepermin},\"{dmy}\");"
+        sql = f"INSERT INTO TimeData(datekey,scorepermin,dmy) VALUES({datakey},{scorepermin},\'{dmy}\');"
         cursor.execute(sql)
         db.commit()
 
 def ShowRTD(datekey):
-    sql = f"SELECT * FROM RealTimeData WHERE datekey = \"{str(datekey)}\""
+    sql = f"SELECT * FROM RealTimeData WHERE datekey = \'{str(datekey)}\';"
     cursor.execute(sql)
     return cursor.fetchall()
     

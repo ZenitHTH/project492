@@ -1,6 +1,5 @@
 import paho.mqtt.client as mqtt
 import time
-import random
 import numpy as np
 
 host = "m24.cloudmqtt.com"
@@ -48,18 +47,17 @@ def KeyGenerate():
     return Tostr((y,m,d))
 
 def PublishPattern(topic,key,score,tsleep):
-    dmy = time.localtime()
     d = time.strftime("%Y:%m:%d", time.localtime())
     t = time.strftime("%H:%M:%S", time.localtime())
     # key ,score ,time ,date
-    mqttc.publish(topic, f"{str(key)},1,{t},{d}")
+    mqttc.publish(topic, f"{str(key)},{score},{t},{d}")
     time.sleep(tsleep)
 
 def ScriptTest(tsleep=60):
     topic = "toys/test"
     key = KeyGenerate()
     for i in range(30):
-        PublishPattern(topic,key,random.randrange(1,4),tsleep)
+        PublishPattern(topic,key,np.random.randint(low=1,high=4),tsleep)
 
 
 def main():
@@ -100,11 +98,7 @@ ScriptTest <time> : Testing the publish data (random between 1 to 10) to the mqt
         else :
             print("",end="")
 
-
-
-
     mqttc.loop_stop()
-
 
 if __name__ == "__main__":
     main()
