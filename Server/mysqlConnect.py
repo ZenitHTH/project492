@@ -20,8 +20,7 @@ db = pymysql.connect(host=host,
 			    ssl={'ca':'xxx/xxx/server-ca.pem',
 			    'cert':'xxx/xxx/client-cert.pem',
 			    'key':'xxx/xxx/client-key.pem'}
-"""			    
-			    
+"""			    		    
 cursor = db.cursor()
 def InsertRTD(datekey,score,time,dmy,prikey):
     if datekey == None or score == None or time == None or dmy == None:
@@ -30,7 +29,7 @@ def InsertRTD(datekey,score,time,dmy,prikey):
         # New DataBase score int,time time,dmy date, datekey unsigned(uniqukey),prikey varchar100(primerykey)
         #sql = f"INSERT INTO RealTimeData(datekey,score,time,dmy) VALUES({(datakey)},{(score)},\"{str(time)}\",\"{str(dmy)}\");"
         sql = f"INSERT INTO RealTimeData(score,dtime,dmy,datekey,prikey) VALUES({str(score)},\'{str(time)}\',\'{str(dmy)}\',{str(datekey)},{str(prikey)});"
-        print(sql)
+        #print(sql)
         cursor.execute(sql)
         db.commit()
 
@@ -47,7 +46,10 @@ def ShowRTD(datekey):
     sql = f"SELECT score,dmy FROM RealTimeData WHERE datekey = \'{str(datekey)}\';"
     cursor.execute(sql)
     return cursor.fetchall()
-    
-    
+
+def Getlastdatekey():
+    sql = "SELECT datekey FROM RealTimeData ORDER BY datekey DESC LIMIT 1,1;"
+    cursor.execute(sql)
+    return cursor.fetchall()[0][0]
 
 
