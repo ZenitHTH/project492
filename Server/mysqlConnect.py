@@ -39,7 +39,7 @@ def InsertTD(datakey,score,dmy):
         print("ERROR")
     else :
         # new DataBase datekey int unsigned (primarykey) ,scorepermin float , dmy date~
-        sql = f"INSERT INTO TimeData(datekey,scorepermin,dmy) VALUES({datakey},{scorepermin},\'{dmy}\');"
+        sql = f"INSERT INTO TimeData(datekey,scorepermin,dmy) VALUES({datakey},{score},\'{dmy}\');"
         cursor.execute(sql)
         db.commit()
 
