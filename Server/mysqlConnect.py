@@ -44,7 +44,7 @@ def InsertTD(datakey,score,dmy):
         db.commit()
 
 def ShowRTD(datekey):
-    sql = f"SELECT * FROM RealTimeData WHERE datekey = \'{str(datekey)}\';"
+    sql = f"SELECT score,dmy FROM RealTimeData WHERE datekey = \'{str(datekey)}\';"
     cursor.execute(sql)
     return cursor.fetchall()
     

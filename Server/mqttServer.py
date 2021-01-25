@@ -39,8 +39,8 @@ def Setup():
 def makeTD(datekey=todaykey):
     data = sql.ShowRTD(datekey)
     l = len(data)
-    s = sum(d[1] for d in data)
-    dmy = data[0][3]
+    s = sum(d[0] for d in data)
+    dmy = data[0][1]
     print(datekey,"{0:.4f}".format(s/l),dmy)
     sql.InsertTD(datekey,"{0:.4f}".format(s/l),dmy)
     

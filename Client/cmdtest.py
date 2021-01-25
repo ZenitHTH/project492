@@ -59,7 +59,6 @@ def ScriptTest(tsleep=60):
     for i in range(30):
         PublishPattern(topic,key,np.random.randint(low=1,high=4),tsleep)
 
-
 def main():
     setup()
     while True:
