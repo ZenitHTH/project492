@@ -1,4 +1,7 @@
 FROM mysql:latest
+ENV TZ=Asia/Bangkok
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 ENV MYSQL_ROOT_PASSWORD #$%Runner01
 ENV MYSQL_USER zenithth
 ENV MYSQL_PASSWORD #$%Runner01
