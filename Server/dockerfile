@@ -2,9 +2,10 @@ FROM mysql:latest
 ENV MYSQL_ROOT_PASSWORD #$%Runner01
 ENV MYSQL_USER zenithth
 ENV MYSQL_PASSWORD #$%Runner01
-ADD database.sql /docker-entrypoint-initdb.d
+ADD database.sql /root
 ADD mqttServer.py /root
 ADD mysqlConnect.py /root
+ADD command.py /root
 
 RUN apt update
 RUN apt install -y python3 python3-pip vim
