@@ -1,15 +1,21 @@
 import pymysql 
-username = "doadmin"
-password = "aikpwj1y19gty8hc"
-host = "db-mysql-sgp1-95265-do-user-5938604-0.b.db.ondigitalocean.com"
-port = 25060
-database = "defaultdb"
+#username = "doadmin"
+#password = "aikpwj1y19gty8hc"
+#host = "db-mysql-sgp1-95265-do-user-5938604-0.b.db.ondigitalocean.com"
+#port = 25060
+#database = "defaultdb"
+
+username = "root"
+password = "#$%Runner01"
+host = "localhost"
+database = "data"
+
 #Docker Connect
 db = pymysql.connect(host=host,
                     user=username,
                     password=password,
-                    database=database,
-                    port=port)
+                    database=database
+                    )
 
 #GCloud SQL Connect
 """
@@ -50,6 +56,10 @@ def ShowRTD(datekey):
 def Getlastdatekey():
     sql = "SELECT datekey FROM RealTimeData ORDER BY datekey DESC LIMIT 1,1;"
     cursor.execute(sql)
-    return cursor.fetchall()[0][0]
+    todaykey = cursor.fetchall()[0][0]
+    if len(todaykey) == 0:
+        return 0
+    else :
+        return todaykey
 
 
