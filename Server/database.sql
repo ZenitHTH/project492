@@ -8,7 +8,7 @@ CREATE TABLE RealTimeData(
     prikey VARCHAR(100),
     PRIMARY KEY(prikey));
 CREATE TABLE TimeData(
-    datekey INTEGER,
+    datekey INTEGER ,
     scorepermin FLOAT(9,4),
     dmy DATE,
     PRIMARY KEY(datekey));
