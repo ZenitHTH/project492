@@ -4,3 +4,4 @@
 *.py~
 Server/data_object.py
 noteerror.txt
+Server/__pycache__/mysqlConnect.cpython-38.pyc
