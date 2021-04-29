@@ -71,3 +71,6 @@ TDTest <datekey> : Testing the average system and put it in the TimeData table
                 print("UNKONW COMMAND\nIf you doesn't know how to use this program, type \'help\', \'HELP\' or \'Help\'")
         else :
             print("",end="")
+
+if __name__ == "__main__":
+    main()
