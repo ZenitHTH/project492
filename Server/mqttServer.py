@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-from . import mysqlConnect as sql
+import mysqlConnect as sql
 import time
 host = "m24.cloudmqtt.com"
 port = 15342
@@ -7,7 +7,7 @@ username = "qyuzvafp"
 password = "0ynj_3e3rzJ6"
 mqttc = mqtt.Client()
 todaykey=sql.Getlastdatekey()
-#print(todaykey)
+
 
 # Define event callbacks
 def on_connect(client, userdata, flags, rc):
