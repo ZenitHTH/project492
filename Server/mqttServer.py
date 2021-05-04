@@ -1,13 +1,14 @@
 import paho.mqtt.client as mqtt
 import mysqlConnect as sql
 import time
-host = "m24.cloudmqtt.com"
-port = 15342
-username = "qyuzvafp"
-password = "0ynj_3e3rzJ6"
+import setup
+host = setup.mqtt.host
+port = setup.mqtt.port
+username = setup.mqtt.username
+password = setup.mqtt.password
+
 mqttc = mqtt.Client()
 todaykey=sql.Getlastdatekey()
-
 
 # Define event callbacks
 def on_connect(client, userdata, flags, rc):
@@ -50,7 +51,11 @@ def main():
         mqttc.loop_start()
         mqttc.subscribe("toys/test")
         
-        if(time.localtime().tm_hour == 22):
+        if(
+            time.localtime().tm_hour == setup.makeTD.hr and 
+            time.localtime().tm_min == setup.makeTD.min and 
+            time.localtime().tm_sec == setup.makeTD.second
+            ):
             makeTD(todaykey)
 
         time.sleep(1)

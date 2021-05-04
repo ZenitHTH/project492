@@ -1,10 +1,12 @@
 import paho.mqtt.client as mqtt
 import mysqlConnect as sql
+import setup 
 
-host = "m24.cloudmqtt.com"
-port = 15342
-username = "qyuzvafp"
-password = "0ynj_3e3rzJ6"
+host = setup.mqtt.host
+port = setup.mqtt.port
+username = setup.mqtt.username
+password = setup.mqtt.password
+
 mqttc = mqtt.Client()
 todaykey=sql.Getlastdatekey()
 
