@@ -5,3 +5,4 @@
 Server/data_object.py
 noteerror.txt
 *.pyc
+Client/Project/Project/.vscode/*
