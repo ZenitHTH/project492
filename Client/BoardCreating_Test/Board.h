@@ -6,15 +6,16 @@ class Board
 {
     private:
         int** board;
-        int len_x,len_y;
+        
         
         bool isInBoard(int,int);
-        bool isEqual(const Board);
+        bool isBoardEqual(const Board&);
 
     
     public:
-        Board(int,int);
+        int len_x,len_y;
 
+        Board(int,int);
         void Insert(int,int,int);
         void PrintBoard();
         Board operator=(const Board&);
