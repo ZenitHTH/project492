@@ -61,8 +61,8 @@ Data GetValue(RPR0521RS rpr[],int device_max)
         TCA9548A(i,0x70);
         rc[i] = rpr[i].get_psalsval(&ps_val[i],&als_val[i]);
     }
-    Data d;
-    d.InitData(ps_val,als_val,rc);
+    Data data;
+    data.InitData(ps_val,als_val,rc);
 
-    return d;
+    return data;
 }
