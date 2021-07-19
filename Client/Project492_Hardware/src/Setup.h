@@ -2,11 +2,14 @@
 #include <Wire.h>
 #include "RPR-0521RS.h"
 
+#define tcaAddrStart    0x70
+#define tcaAddrEnd      0x73
+
 class Data
 {
     public:
-        unsigned short ps_val[];
-        float als_val[];
+        unsigned short *ps_val;
+        float *als_val;
         byte rc[];
 
         void InitData(unsigned short ps[],float als[],byte r[])
@@ -44,7 +47,7 @@ void SetupSensor(RPR0521RS rpr[],int device_max)
     byte rc[device_max];
     for(int i=0;i<device_max;i++)
     {
-        TCA9548A(i,112);
+        TCA9548A(i,tcaAddrStart);
         while (!Serial);
         rc[i] = rpr[i].init();
         Serial.println(rc[i]);
@@ -58,7 +61,7 @@ Data GetValue(RPR0521RS rpr[],int device_max)
     byte rc[device_max];
     for(int i=0;i<device_max;i++) 
     {
-        TCA9548A(i,0x70);
+        TCA9548A(i,tcaAddrStart);
         rc[i] = rpr[i].get_psalsval(&ps_val[i],&als_val[i]);
     }
     Data data;
