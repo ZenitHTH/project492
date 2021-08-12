@@ -9,10 +9,13 @@ class Data
 
     public:
 
+        Data();
         Data(unsigned short,float,byte);
         unsigned short GetPS();
         float GetAls();
         byte GetRC();
+        void Insert(unsigned short,float);
+        
 
 };
 
@@ -36,5 +39,11 @@ float Data::GetAls()
 byte Data::GetRC()
 {
     return this->rc;
+}
+
+void Data::Insert(unsigned short ps_val,float als_val)
+{
+    this->ps_val = ps_val;
+    this->als_val = als_val;
 }
 

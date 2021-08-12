@@ -6,19 +6,19 @@ class Board
         Data **data;
 
     public:
-        int len_x, len_y , tcaaddr;
+        int len_x, len_y ;
 
-        Board(int,int,int);
+        template<size_t row,size_t col>
+        Board(Data [row][col]);
 
 };
 
-Board::Board(int x,int y,int tcaaddr)
+template<size_t row,size_t col>
+Board::Board(Data data[row][col])
 {
-    this->len_x = x;
-    this->len_y = y;
-    this->tcaaddr = tcaaddr;
-
-    //SetupSensor
+    this->len_x = row;
+    this->len_y = col;
+    this->data = data;
     
 
 }
