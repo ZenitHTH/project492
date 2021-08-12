@@ -63,7 +63,7 @@ Board GetValue(RPR0521RS rpr[row][col],int *tcaAddr)
 
   }
   
-  Data pin[i][j]
+  Data pin[i][j];
 
   for(int i=0;i<row;i++)
   {
