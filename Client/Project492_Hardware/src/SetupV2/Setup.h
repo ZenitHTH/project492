@@ -4,6 +4,7 @@
 #include "Data.h"
 #include "Board.h"
 
+
 #define TCA_ADDR_0  0x70
 #define TCA_ADDR_1  0x71
 
@@ -37,10 +38,12 @@ void SetupSensor(RPR0521RS (&rpr)[row][col],int (*tcaAddr))
         addrNum++;
       }
     }
+
+    
 }
 
 template <size_t row,size_t col>
-Board GetValue(RPR0521RS rpr[row][col],int *tcaAddr)
+void GetValue(RPR0521RS (&rpr)[row][col],int (*tcaAddr),Board *b)
 {
   unsigned short ps_val[row][col];
   float als_val[row][col];
@@ -63,7 +66,7 @@ Board GetValue(RPR0521RS rpr[row][col],int *tcaAddr)
 
   }
   
-  Data pin[i][j];
+  Data pin[row][col];
 
   for(int i=0;i<row;i++)
   {
@@ -73,6 +76,7 @@ Board GetValue(RPR0521RS rpr[row][col],int *tcaAddr)
     }
   }
 
-  return Board(pin);
+  Board board(pin);
 
+  *b = board;
 }
