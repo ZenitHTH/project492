@@ -42,8 +42,6 @@ pin** MatchSensor(RPR0521RS (&rpr)[row][col],const int (*tcaAddr))
       addrNum++;
     }
   }
-
-
   return p;
 }
 
@@ -79,9 +77,7 @@ Board GetValue(pin **p,int row,int col)
       pin _p = p[i][j];
       TCA9548A(_p.num,_p.tcaAddr);
       rc[i][j] = _p.rpr.get_psalsval(&ps_val[i][j],&als_val[i][j]);
-      
     }
-
   }
   
   Data **dat = new Data*[row];
