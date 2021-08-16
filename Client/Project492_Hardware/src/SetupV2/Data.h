@@ -1,4 +1,5 @@
-#include <Arduino.h>
+#ifndef DATA_H
+#define DATA_H
 
 class Data
 {
@@ -9,22 +10,13 @@ class Data
 
     public:
 
-        Data();
-        Data(unsigned short,float,byte);
         unsigned short GetPS();
         float GetAls();
         byte GetRC();
-        void Insert(unsigned short,float);
+        void Insert(unsigned short,float,byte);
         
 
 };
-
-Data::Data(unsigned short ps_val,float als_val,byte rc)
-{
-    this->ps_val = ps_val;
-    this->als_val = als_val;
-    this->rc = rc;
-}
 
 unsigned short Data::GetPS()
 {
@@ -41,9 +33,11 @@ byte Data::GetRC()
     return this->rc;
 }
 
-void Data::Insert(unsigned short ps_val,float als_val)
+void Data::Insert(unsigned short ps_val,float als_val,byte rc)
 {
     this->ps_val = ps_val;
     this->als_val = als_val;
+    this->rc = rc;
 }
 
+#endif

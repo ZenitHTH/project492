@@ -1,3 +1,6 @@
+#ifndef BOARD_H
+#define BOARD_H
+
 #include "Data.h"
 
 class Board
@@ -8,16 +11,21 @@ class Board
     public:
         int len_x, len_y ;
 
-        Board();
-        template<size_t row,size_t col>
-        Board(Data [row][col]);
+        Board(Data **,int,int);
+        void Insert(Data **,int,int);
         Board operator=(const Board&);
         void PrintStatus();
 
 };
 
-template<size_t row,size_t col>
-Board::Board(Data data[row][col])
+Board::Board(Data **data,int row,int col)
+{
+    this->len_x = row;
+    this->len_y = col;
+    this->data = data;
+}
+
+void Board::Insert(Data **data,int row,int col)
 {
     this->len_x = row;
     this->len_y = col;
@@ -46,3 +54,5 @@ void Board::PrintStatus()
         Serial.println();
     }
 }
+
+#endif
