@@ -5,28 +5,28 @@
 #include "SetupV2/Setup.h"
 #include "SetupV2/Data.h"
 #include "SetupV2/Board.h"
-
+#include "Pin.h"
 
 
 #define DEVICE_COL  4
 #define DEVICE_ROW  4 
 RPR0521RS rpr0521rs[DEVICE_ROW][DEVICE_COL];
-int tcaAddr[] = {0x70,0x71};
-//RPR0521RS rpr0521rs[DEVICE_MAX];
+const int tcaAddr[] = {0x70,0x71};
+pin **p;
 
 void setup()
 {
   Serial.begin(115200);
   Wire.begin();
-  SetupSensor(rpr0521rs,tcaAddr);
+  p = MatchSensor(rpr0521rs,tcaAddr);
+  SetupSensor(p,DEVICE_ROW,DEVICE_COL);
 }
 
 void loop()
 {
-  Board board();
-  GetValue(rpr0521rs,tcaAddr,&board());
+  Board board = GetValue(p,DEVICE_ROW,DEVICE_COL);
 
-  board().PrintStatus();
+  board.PrintStatus();
 }
 
  
