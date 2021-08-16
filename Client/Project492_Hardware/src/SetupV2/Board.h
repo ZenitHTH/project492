@@ -12,20 +12,12 @@ class Board
         int len_x, len_y ;
 
         Board(Data **,int,int);
-        void Insert(Data **,int,int);
         Board operator=(const Board&);
         void PrintStatus();
 
 };
 
 Board::Board(Data **data,int row,int col)
-{
-    this->len_x = row;
-    this->len_y = col;
-    this->data = data;
-}
-
-void Board::Insert(Data **data,int row,int col)
 {
     this->len_x = row;
     this->len_y = col;
