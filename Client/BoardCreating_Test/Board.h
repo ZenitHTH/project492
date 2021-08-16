@@ -5,19 +5,17 @@ using namespace std;
 class Board
 {
     private:
-        int** board;
-        
-        
         bool isInBoard(int,int);
         bool isBoardEqual(const Board&);
-
     
     public:
+        int** board;
         int len_x,len_y;
 
         Board(int,int);
         void Insert(int,int,int);
         void PrintBoard();
+
         Board operator=(const Board&);
 
         template <size_t rows,size_t cols>
