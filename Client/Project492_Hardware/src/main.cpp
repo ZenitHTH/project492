@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "RPR-0521RS.h"
-#include "SerialMonitor.h"
 #include "SetupV2/Setup.h"
 #include "SetupV2/Data.h"
 #include "SetupV2/Board.h"
