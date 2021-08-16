@@ -1,12 +1,14 @@
+#ifndef SETUP_H
+#define SETUP_H
+
 #include <Arduino.h>
 #include <Wire.h>
 #include "RPR-0521RS.h"
 #include "Data.h"
 #include "Board.h"
-
-
-#define TCA_ADDR_0  0x70
-#define TCA_ADDR_1  0x71
+#include "Pin.h"
+#define DEVICE_COL  4
+#define DEVICE_ROW  4 
 
 void TCA9548A(uint8_t bus,int address)
 {
@@ -16,67 +18,84 @@ void TCA9548A(uint8_t bus,int address)
 }
 
 template <size_t row,size_t col>
-void SetupSensor(RPR0521RS (&rpr)[row][col],int (*tcaAddr))
+pin** MatchSensor(RPR0521RS (&rpr)[row][col],const int (*tcaAddr))
 {
-    byte rc[row][col];
-    int addrNum=0;
-    int num = 0;
-    for(int i=0;i<row;i++)
-    {
-      for(int j=0;j<rol;j++)
-      {
-        TCA9548A(num,tcaAddr[addrNum]);
-        while (!Serial);
-        rc[i][j] = rpr[i][j].init();
-        Serial.println(rc[i][j]);
-        num++;
-
-      }
-      if(num == 8)
-      {
-        num = 0;
-        addrNum++;
-      }
-    }
-
-    
-}
-
-template <size_t row,size_t col>
-void GetValue(RPR0521RS (&rpr)[row][col],int (*tcaAddr),Board *b)
-{
-  unsigned short ps_val[row][col];
-  float als_val[row][col];
-  byte rc[row][col];
-  int addrNum=0;
+  pin **p;
+  p = new pin*[row];
   int num = 0;
+  int addrNum = 0;
+
   for(int i=0;i<row;i++)
   {
+    p[i] = new pin[col];
     for(int j=0;j<col;j++)
     {
-      TCA9548A(num,tcaAddr[addrNum]);
-      rc[i][j] = rpr[i][j].get_psalsval(&ps_val[i][j],&als_val[i][j]);
+      p[i][j].num = num;
+      p[i][j].tcaAddr = addrNum;
+      p[i][j].rpr = rpr[i][j];
+
       num++;
     }
     if(num == 8)
     {
-      num=0;
+      num = 0;
       addrNum++;
     }
-
   }
-  
-  Data pin[row][col];
 
+
+  return p;
+}
+
+void SetupSensor(pin **p,int row,int col)
+{
+    byte rc[row][col];
+
+    for(int i=0;i<row;i++)
+    {
+      for(int j=0;j<col;j++)
+      {
+        pin _p = p[i][j];
+        TCA9548A(_p.num,_p.tcaAddr);
+        while (!Serial);
+        rc[i][j] = _p.rpr.init();
+        Serial.println(rc[i][j]);
+        
+      }
+    }
+
+}
+
+
+Board GetValue(pin **p,int row,int col)
+{
+  unsigned short ps_val[row][col];
+  float als_val[row][col];
+  byte rc[row][col];
   for(int i=0;i<row;i++)
   {
     for(int j=0;j<col;j++)
     {
-      pin[i][j].Insert(ps_val[i][j],als_val[i][j]);
+      pin _p = p[i][j];
+      TCA9548A(_p.num,_p.tcaAddr);
+      rc[i][j] = _p.rpr.get_psalsval(&ps_val[i][j],&als_val[i][j]);
+      
+    }
+
+  }
+  
+  Data **dat = new Data*[row];
+
+  for(int i=0;i<row;i++)
+  {
+    dat[i] = new Data[col];
+    for(int j=0;j<col;j++)
+    {
+      dat[i][j].Insert(ps_val[i][j],als_val[i][j],rc[i][j]);
     }
   }
 
-  Board board(pin);
-
-  *b = board;
+  return Board(dat,row,col);
 }
+
+#endif
