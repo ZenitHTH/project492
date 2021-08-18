@@ -6,8 +6,9 @@
 struct pin
 {
     RPR0521RS rpr;
-    int tcaAddr;
-    int num;
+    uint8_t tcaAddr;
+    uint8_t num;
+    uint8_t posLed;
 };
 
 #endif

@@ -18,12 +18,19 @@ void TCA9548A(uint8_t bus,int address)
 }
 
 template <size_t row,size_t col>
-pin** MatchSensor(RPR0521RS (&rpr)[row][col],const int (*tcaAddr))
+pin** MatchSensor(RPR0521RS (&rpr)[row][col],const uint8_t (*tcaAddr))
 {
   pin **p;
   p = new pin*[row];
-  int num = 0;
+  uint8_t num = 1;
   int addrNum = 0;
+  uint8_t posLed[][] = 
+  {
+    {0,1,2,3},
+    {7,6,5,4},
+    {8,9,10,11}.
+    {15,14,13,12}
+  };
 
   for(int i=0;i<row;i++)
   {
@@ -31,8 +38,9 @@ pin** MatchSensor(RPR0521RS (&rpr)[row][col],const int (*tcaAddr))
     for(int j=0;j<col;j++)
     {
       p[i][j].num = num;
-      p[i][j].tcaAddr = addrNum;
+      p[i][j].tcaAddr = tcaAddr[addrNum];
       p[i][j].rpr = rpr[i][j];
+      p[i][j].posLed = posLed[i][j];
 
       num++;
     }
