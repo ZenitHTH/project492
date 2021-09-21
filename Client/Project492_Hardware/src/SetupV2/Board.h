@@ -40,8 +40,8 @@ void Board::PrintStatus()
     {
         for(int j=0;j<len_y;j++)
         {
-            Serial.print("[");Serial.print(data[i][j].GetAls());Serial.print("] ");
-            Serial.print("[");Serial.print(data[i][j].GetPS());Serial.print("]\t");
+            Serial.print("["+String(data[i][j].GetAls(),2)+"]");
+            Serial.print("["+String(data[i][j].GetPS(),DEC)+"]\t");
         }
         Serial.println();
     }
