@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <FastLED.h>
+//#include <FastLED.h>
 #include "RPR-0521RS.h"
 #include "SetupV2/Setup.h"
 #include "SetupV2/Data.h"
@@ -12,28 +12,35 @@
 #define DEVICE_ROW  4 
 #define NUM_LEDS    16
 #define LED_PIN     2
+const uint8_t tcaAddr[2] = {0x71,0x70};
+RPR0521RS rpr0521rs[DEVICE_ROW][DEVICE_COL];
 
-CRGB leds[NUM_LEDS];
+//CRGB leds[NUM_LEDS];
 pin **p;
 
 void setup()
 {
+  
   Serial.begin(115200);
+  while(!Serial);
+  delay(1000);
   Wire.begin();
-  RPR0521RS rpr0521rs[DEVICE_ROW][DEVICE_COL];
-  const uint8_t tcaAddr[] = {0x70,0x71};
+  
+  
 
-  FastLED.addLeds<WS2812B,LED_PIN,GRB>(leds,NUM_LEDS);
-  FastLED.setBrightness(50);
-  p = MatchSensor(rpr0521rs,tcaAddr);
-  SetupSensor(p,DEVICE_ROW,DEVICE_COL);
+  //FastLED.addLeds<WS2812B,LED_PIN,GRB>(leds,NUM_LEDS);
+  //FastLED.setBrightness(50);
+  p = MatchSensor(tcaAddr,DEVICE_ROW,DEVICE_COL);
+  SetupSensor(p,rpr0521rs);
 }
 
 void loop()
 {
-  Board board = GetValue(p,DEVICE_ROW,DEVICE_COL);
+  delay(2000);
+  Board board = GetValue(p,rpr0521rs);
 
   board.PrintStatus();
+  delay(500);
 }
 
  
