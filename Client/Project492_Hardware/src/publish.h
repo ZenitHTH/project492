@@ -4,6 +4,7 @@
 #include <WiFi.h>
 #include <WiFiManager.h> 
 #include <PubSubClient.h>
+#include "Typeof.h"
 
 #define mqtt_server       "m24.cloudmqtt.com"
 #define mqtt_port         15342
@@ -46,6 +47,37 @@ void Reconnect() {
       // Wait 5 seconds before retrying
       delay(5000);
     }
+  }
+}
+
+char* f2char(float f)
+{
+  char val[8];
+  dtostrf(f,4,4,val);
+  return val;
+}
+
+template <typename T>
+char* digit2char(T digit)
+{
+  char val[8];
+  if(isDigit(digit))
+  {
+    if(typeof(digit) == "int")
+    {
+      String s = String(digit,DEC);
+      s.toCharArray(val,8);
+      return val;
+    }
+    else if(typeof(digit) == "float")
+    {
+      dtostrf(digit,8,4,val);
+      return val;
+    }
+    
+  }
+  else{
+    return "ERR";
   }
 }
 
