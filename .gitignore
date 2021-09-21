@@ -11,3 +11,9 @@ Client/.vscode/launch.json
 Client/.vscode/tasks.json
 Client/BoardCreating_Test/main.exe
 
+Client/Project492_Hardware/.vscode/extensions.json
+Client/Project492_Hardware/.vscode/extensions.json
+Client/Project492_Hardware/lib/RPR-0521RS/keywords.txt
+.gitignore
+Client/Project492_Hardware/lib/RPR-0521RS/RPR-0521RS.h
+Client/Project492_Hardware/lib/RPR-0521RS/examples/RPR-0521RS/RPR-0521RS.ino
