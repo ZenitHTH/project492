@@ -6,6 +6,8 @@
 #include "SetupV2/Data.h"
 #include "SetupV2/Board.h"
 #include "Pin.h"
+#include "PinCheck.h"
+#include "publish.h"
 
 
 #define DEVICE_COL  4
@@ -14,20 +16,18 @@
 #define LED_PIN     2
 const uint8_t tcaAddr[2] = {0x71,0x70};
 RPR0521RS rpr0521rs[DEVICE_ROW][DEVICE_COL];
+PinCheck pincheck;
 
 //CRGB leds[NUM_LEDS];
 pin **p;
 
 void setup()
 {
-  
   Serial.begin(115200);
   while(!Serial);
   delay(1000);
   Wire.begin();
   
-  
-
   //FastLED.addLeds<WS2812B,LED_PIN,GRB>(leds,NUM_LEDS);
   //FastLED.setBrightness(50);
   p = MatchSensor(tcaAddr,DEVICE_ROW,DEVICE_COL);
@@ -39,6 +39,8 @@ void loop()
   delay(2000);
   Board board = GetValue(p,rpr0521rs);
 
+  pincheck.Insert(board);
+  
   board.PrintStatus();
   delay(500);
 }
