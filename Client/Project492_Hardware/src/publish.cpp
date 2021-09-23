@@ -1,9 +1,4 @@
-#ifndef PUBLISH_H
-#define PUBLISH_H
-
-#include <WiFi.h>
-#include <WiFiManager.h> 
-#include <PubSubClient.h>
+#include "publish.h"
 #include "Typeof.h"
 
 #define mqtt_server       "m24.cloudmqtt.com"
@@ -80,8 +75,6 @@ char* digit2char(T digit)
     return "ERR";
   }
 }
-
-#endif
 
 /*
 

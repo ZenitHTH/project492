@@ -1,5 +1,6 @@
 #ifndef PIN_H
 #define PIN_H
+#include <Arduino.h>
 
 struct pin
 {

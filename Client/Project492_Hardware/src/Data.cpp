@@ -1,23 +1,5 @@
-#ifndef DATA_H
-#define DATA_H
-
-class Data
-{
-    private:
-        unsigned short ps_val;
-        float als_val;
-        byte rc;
-
-    public:
-
-        unsigned short GetPS();
-        float GetAls();
-        byte GetRC();
-        void Insert(unsigned short,float,byte);
-        bool HaveItData();
-        
-
-};
+#include <Arduino.h>
+#include "Data.h"
 
 unsigned short Data::GetPS()
 {
@@ -46,5 +28,3 @@ void Data::Insert(unsigned short ps_val,float als_val,byte rc)
     this->als_val = als_val;
     this->rc = rc;
 }
-
-#endif

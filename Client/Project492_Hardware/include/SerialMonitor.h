@@ -1,3 +1,6 @@
+#ifndef SERIALMOINTOR_H
+#define SERIALMOINTOR_H
+
 #include <Arduino.h>
 
 void PrintSersorStatus(unsigned short ps_val[],float als_val[],int device_max)
@@ -25,3 +28,5 @@ void PrintSersorStatus(unsigned short ps_val[],float als_val[],int device_max)
     }
   Serial.println();   
 }
+
+#endif

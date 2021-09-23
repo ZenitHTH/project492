@@ -2,9 +2,9 @@
 #include <Wire.h>
 //#include <FastLED.h>
 #include "RPR-0521RS.h"
-#include "SetupV2/Setup.h"
-#include "SetupV2/Data.h"
-#include "SetupV2/Board.h"
+#include "Setup.h"
+#include "Data.h"
+#include "Board.h"
 #include "Pin.h"
 #include "PinCheck.h"
 #include "publish.h"

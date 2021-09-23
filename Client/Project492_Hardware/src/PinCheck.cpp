@@ -1,19 +1,5 @@
-#ifndef PINCHECK_H
-#define PINCHECK_H
-#include "SetupV2/Board.h"
-#include "SetupV2/Data.h"
+#include "PinCheck.h"
 
-class PinCheck
-{
-    private :
-    Board before;
-    Board after;
-
-    public :
-    PinCheck(void);
-    void Insert(Board);
-    
-};
 
 PinCheck::PinCheck(void)
 {
@@ -37,6 +23,3 @@ void PinCheck::Insert(Board now)
         this->after = now;
     }
 }
-
-
-#endif
