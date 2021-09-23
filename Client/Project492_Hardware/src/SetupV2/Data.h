@@ -14,6 +14,7 @@ class Data
         float GetAls();
         byte GetRC();
         void Insert(unsigned short,float,byte);
+        bool HaveItData();
         
 
 };
@@ -31,6 +32,12 @@ float Data::GetAls()
 byte Data::GetRC()
 {
     return this->rc;
+}
+
+bool Data::HaveItData()
+{
+    if(rc == 0 && (ps_val > 0 || als_val > 0)) return true;
+    else return false;
 }
 
 void Data::Insert(unsigned short ps_val,float als_val,byte rc)
