@@ -63,13 +63,13 @@ char* digit2char(T digit)
   char val[8];
   if(isDigit(digit))
   {
-    if(typeof(digit) == "int")
+    if(TypeOf(digit) == "int")
     {
       String s = String(digit,DEC);
       s.toCharArray(val,8);
       return val;
     }
-    else if(typeof(digit) == "float")
+    else if(TypeOf(digit) == "float")
     {
       dtostrf(digit,8,4,val);
       return val;
