@@ -40,6 +40,7 @@ void loop()
   Board board = GetValue(p,rpr0521rs);
 
   pincheck.Insert(board);
+  pincheck.CheckDiffrent();
   
   board.PrintStatus();
   delay(500);

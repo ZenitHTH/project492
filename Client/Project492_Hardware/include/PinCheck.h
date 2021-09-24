@@ -14,6 +14,7 @@ class PinCheck
     {
         uint8_t i;
         uint8_t j;
+        
     };
     LinkedList<local> diff;
 

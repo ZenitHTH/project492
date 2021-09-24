@@ -37,7 +37,7 @@ void PinCheck::CheckDiffrent()
             for(uint8_t j=0;j<this->before.len_y;j++)
             {
                 
-                if(isPin_after[i][j] != isPin_before[i][j]) 
+                if(isPin_after[i][j] == false && isPin_before[i][j] == true)
                 {
                     local l; l.i = i; l.j = j;
                     diff.add(l);
