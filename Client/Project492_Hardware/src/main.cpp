@@ -9,13 +9,10 @@
 #include <WiFi.h>
 #include <WiFiManager.h> 
 #include <PubSubClient.h>
-
+#include <time.h>
 
 #define DEVICE_COL  4
 #define DEVICE_ROW  4 
-#define NUM_LEDS    16
-#define LED_PIN     2
-
 #define mqtt_server       "m24.cloudmqtt.com"
 #define mqtt_port         15342
 #define mqtt_user         "qyuzvafp"
@@ -27,20 +24,15 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 RPR0521RS rpr0521rs[DEVICE_ROW][DEVICE_COL];
 PinCheck pincheck;
-WiFiUDP Udp;
 
-static const char ntpServerName[] = "time.navy.mi.th";
-unsigned int localport = 123;
-static const int timeZone = 7;
+
 const uint8_t tcaAddr[2] = {0x71,0x70};
 pin **p;
 
-time_t getNtpTime();
-void sendNTPpacket(IPAddress &address);
 void WiFi_Setup();
 void Reconnect();
-char* f2char(double);
-char* int2char(int);
+//char* f2char(double);
+//char* int2char(int);
 
 void setup()
 {
@@ -48,12 +40,11 @@ void setup()
   while(!Serial);
   delay(1000);
   Wire.begin();
+  //WiFi Setup
   WiFi_Setup();
-  Udp.begin(123);
-  setSyncProvider(getNtpTime);
-  setSyncInterval(300);
-  //FastLED.addLeds<WS2812B,LED_PIN,GRB>(leds,NUM_LEDS);
-  //FastLED.setBrightness(50);
+
+  //Get the time
+  configTime(7*60*60,3600,"time.navy.mi.th");
   p = MatchSensor(tcaAddr,DEVICE_ROW,DEVICE_COL);
   SetupSensor(p,rpr0521rs);
 }
@@ -62,6 +53,7 @@ void loop()
 {
   Board board;
   char* msg;
+  struct tm timeinfo;
   if(!client.connected())
   {
     Reconnect();
@@ -71,70 +63,13 @@ void loop()
   board = GetValue(p,rpr0521rs);
 
   pincheck.Insert(board);
+
   pincheck.CheckDiffrent();
-  msg = pincheck.PublishData(now());
+  msg = pincheck.PublishData(timeinfo);
+  Serial.print(msg);
   if(msg != "ERR") client.publish("toys/test",msg,true);
   board.PrintStatus();
   delay(500);
-}
-
-const int NTP_PACKET_SIZE = 48; // NTP time is in the first 48 bytes of message
-byte packetBuffer[NTP_PACKET_SIZE]; //buffer to hold incoming & outgoing packets
-
-
-// send an NTP request to the time server at the given address
-time_t getNtpTime()
-{
-  IPAddress ntpServerIP; // NTP server's ip address
-
-  while (Udp.parsePacket() > 0) ; // discard any previously received packets
-  Serial.println("Transmit NTP Request");
-  // get a random server from the pool
-  WiFi.hostByName(ntpServerName, ntpServerIP);
-  Serial.print(ntpServerName);
-  Serial.print(": ");
-  Serial.println(ntpServerIP);
-  sendNTPpacket(ntpServerIP);
-  uint32_t beginWait = millis();
-  while (millis() - beginWait < 1500) {
-    int size = Udp.parsePacket();
-    if (size >= NTP_PACKET_SIZE) {
-      Serial.println("Receive NTP Response");
-      Udp.read(packetBuffer, NTP_PACKET_SIZE);  // read packet into the buffer
-      unsigned long secsSince1900;
-      // convert four bytes starting at location 40 to a long integer
-      secsSince1900 =  (unsigned long)packetBuffer[40] << 24;
-      secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
-      secsSince1900 |= (unsigned long)packetBuffer[42] << 8;
-      secsSince1900 |= (unsigned long)packetBuffer[43];
-      return secsSince1900 - 2208988800UL + timeZone * SECS_PER_HOUR;
-    }
-  }
-  Serial.println("No NTP Response :-(");
-  return 0; // return 0 if unable to get the time
-}
-
-
-void sendNTPpacket(IPAddress &address)
-{
-  // set all bytes in the buffer to 0
-  memset(packetBuffer, 0, NTP_PACKET_SIZE);
-  // Initialize values needed to form NTP request
-  // (see URL above for details on the packets)
-  packetBuffer[0] = 0b11100011;   // LI, Version, Mode
-  packetBuffer[1] = 0;     // Stratum, or type of clock
-  packetBuffer[2] = 6;     // Polling Interval
-  packetBuffer[3] = 0xEC;  // Peer Clock Precision
-  // 8 bytes of zero for Root Delay & Root Dispersion
-  packetBuffer[12] = 49;
-  packetBuffer[13] = 0x4E;
-  packetBuffer[14] = 49;
-  packetBuffer[15] = 52;
-  // all NTP fields have been given values, now
-  // you can send a packet requesting a timestamp:
-  Udp.beginPacket(address, 123); //NTP requests are to port 123
-  Udp.write(packetBuffer, NTP_PACKET_SIZE);
-  Udp.endPacket();
 }
 
 
@@ -172,17 +107,17 @@ void Reconnect() {
   }
 }
 
-char* f2char(double f)
-{
-  char* value;
-  dtostrf(f,8,4,value);
-  return value;
-}
+// char* f2char(double f)
+// {
+//   char* value;
+//   dtostrf(f,8,4,value);
+//   return value;
+// }
 
-char* int2char(int i)
-{
-  char* value;
-  String s = String(i,DEC);
-  s.toCharArray(value,8);
-  return value;
-}
+// char* int2char(int i)
+// {
+//   char* value;
+//   String s = String(i,DEC);
+//   s.toCharArray(value,8);
+//   return value;
+// }

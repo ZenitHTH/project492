@@ -18,9 +18,9 @@ void SetupSensor(pin **p,RPR0521RS (&rpr)[row][col])
     byte rc[row][col];
     pin lastpin;
     pin _p;
-    for(int i=0;i<row;i++)
+    for(uint8_t i=0;i<row;i++)
     {
-      for(int j=0;j<col;j++)
+      for(uint8_t j=0;j<col;j++)
       {
         if(_p.tcaAddr != 0) lastpin = _p;
         _p = p[i][j];
@@ -42,9 +42,9 @@ Board GetValue(pin **p,RPR0521RS (&rpr)[row][col])
   float als_val[row][col];
   byte rc[row][col];
   pin _p, lastpin;
-  for(int i=0;i<row;i++)
+  for(uint8_t i=0;i<row;i++)
   {
-    for(int j=0;j<col;j++)
+    for(uint8_t j=0;j<col;j++)
     {
       if(_p.tcaAddr != 0) lastpin = _p;
       _p = p[i][j];
@@ -62,10 +62,10 @@ Board GetValue(pin **p,RPR0521RS (&rpr)[row][col])
   
   Data **dat = new Data*[row];
 
-  for(int i=0;i<row;i++)
+  for(uint8_t i=0;i<row;i++)
   {
     dat[i] = new Data[col];
-    for(int j=0;j<col;j++)
+    for(uint8_t j=0;j<col;j++)
     {
       dat[i][j].Insert(ps_val[i][j],als_val[i][j],rc[i][j]);
     }

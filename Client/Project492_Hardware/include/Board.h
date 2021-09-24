@@ -10,9 +10,9 @@ class Board
         bool HaveData();
 
     public:
-        int len_x, len_y ;
+        uint8_t len_x, len_y ;
 
-        Board(Data **,int,int);
+        Board(Data **,uint8_t,uint8_t);
         Board(void);
         Board operator=(const Board&);
         void PrintStatus();

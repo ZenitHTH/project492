@@ -36,10 +36,10 @@ pin** MatchSensor(const uint8_t (*tcaAddr),uint8_t row,uint8_t col)
     {{3,0},{4,0},{3,1},{4,1}}
   };
 
-  for(int i=0;i<row;i++)
+  for(uint8_t i=0;i<row;i++)
   {
     p[i] = new pin[col];
-    for(int j=0;j<col;j++)
+    for(uint8_t j=0;j<col;j++)
     {
       p[i][j].num = posSensor[i][j][0];
       p[i][j].tcaAddr = tcaAddr[posSensor[i][j][1]];

@@ -35,17 +35,17 @@ class Data
         }
 };
 
-void TCA9548A(uint8_t bus,int address)
+void TCA9548A(uint8_t bus,uint8_t address)
 {
   Wire.beginTransmission(address);
   Wire.write(1<<bus);
   Wire.endTransmission();
 }
 
-void SetupSensor(RPR0521RS rpr[],int device_max)
+void SetupSensor(RPR0521RS rpr[],uint8_t device_max)
 {
     byte rc[device_max];
-    for(int i=0;i<device_max;i++)
+    for(uint8_t i=0;i<device_max;i++)
     {
         TCA9548A(i,tcaAddrStart);
         while (!Serial);
@@ -54,12 +54,12 @@ void SetupSensor(RPR0521RS rpr[],int device_max)
     }
 }
 
-Data GetValue(RPR0521RS rpr[],int device_max)
+Data GetValue(RPR0521RS rpr[],uint8_t device_max)
 {
     unsigned short ps_val[device_max];
     float als_val[device_max];
     byte rc[device_max];
-    for(int i=0;i<device_max;i++) 
+    for(uint8_t i=0;i<device_max;i++) 
     {
         TCA9548A(i,tcaAddrStart);
         rc[i] = rpr[i].get_psalsval(&ps_val[i],&als_val[i]);
