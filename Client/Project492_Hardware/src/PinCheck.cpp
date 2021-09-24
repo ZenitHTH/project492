@@ -1,5 +1,4 @@
 #include "PinCheck.h"
-#include <Arduino.h>
 
 
 PinCheck::PinCheck(void)
@@ -46,4 +45,42 @@ void PinCheck::CheckDiffrent()
         }
     }
     
+}
+
+char* PinCheck::PublishData(time_t t)
+{
+    uint8_t size = diff.size();
+    if(size != 0)
+    {
+        char* digit = this->int2char(size);
+        char* y = this->int2char(year(t));
+        char* mon;
+        if(month(t) < 10) mon = '0'+this->int2char(month(t));
+        else mon = this->int2char(month(t));
+        char* d;
+        if(day(t) < 10) d = '0'+this->int2char(day(t));
+        else d = this->int2char(day(t));
+        char* h;
+        if(hour(t) >= 0 && hour(t) <10) h = '0'+this->int2char(hour(t));
+        else h = this->int2char(hour(t));
+        char* min;
+        if(minute(t) >= 0 && minute(t) < 10) min = '0'+this->int2char(minute(t));
+        else min = this->int2char(minute(t));
+        char* sec;
+        if(second(t) >= 0 && minute(t) < 10) sec = '0'+this->int2char(second(t));
+        sec = this->int2char(second(t));
+
+        char msg[40];
+        sprintf(msg,"%s%s%s,%s,%s:%s:%s,%s:%s:%s",y,mon,d,digit,h,min,sec,y,mon,d);
+        return msg;
+    }
+    return "ERR";
+}
+
+char* PinCheck::int2char(int i)
+{
+    char* value;
+    String s = String(i,DEC);
+    s.toCharArray(value,8);
+    return value;
 }

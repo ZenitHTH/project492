@@ -4,6 +4,7 @@
 #include "Data.h"
 #include <Arduino.h>
 #include <LinkedList.h>
+#include <TimeLib.h>
 
 class PinCheck
 {
@@ -17,13 +18,14 @@ class PinCheck
         
     };
     LinkedList<local> diff;
+    char* int2char(int);
 
     public :
     PinCheck(void);
     void Insert(Board);
     void CheckDiffrent();
+    char* PublishData(time_t t);
 
-    
 };
 
 
