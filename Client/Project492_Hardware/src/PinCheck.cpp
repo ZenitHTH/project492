@@ -38,8 +38,10 @@ void PinCheck::CheckDiffrent()
                 
                 if(isPin_after[i][j] == false && isPin_before[i][j] == true)
                 {
-                    local l; l.i = i; l.j = j;
-                    diff.add(l);
+                    // local l; l.i = i; l.j = j;
+                    // diff.add(l);
+                    Serial.println("Found Difrent");
+                    a++;
                 }
             }
         }
@@ -47,34 +49,32 @@ void PinCheck::CheckDiffrent()
     
 }
 
-char* PinCheck::PublishData(time_t t)
+char* PinCheck::PublishData(struct tm timeinfo)
 {
-    uint8_t size = diff.size();
-    if(size != 0)
+    //uint8_t size = diff.size();
+    //if(size != 0)
+    if(a != 0)
     {
-        char* digit = this->int2char(size);
-        char* y = this->int2char(year(t));
-        char* mon;
-        if(month(t) < 10) mon = '0'+this->int2char(month(t));
-        else mon = this->int2char(month(t));
-        char* d;
-        if(day(t) < 10) d = '0'+this->int2char(day(t));
-        else d = this->int2char(day(t));
-        char* h;
-        if(hour(t) >= 0 && hour(t) <10) h = '0'+this->int2char(hour(t));
-        else h = this->int2char(hour(t));
-        char* min;
-        if(minute(t) >= 0 && minute(t) < 10) min = '0'+this->int2char(minute(t));
-        else min = this->int2char(minute(t));
-        char* sec;
-        if(second(t) >= 0 && minute(t) < 10) sec = '0'+this->int2char(second(t));
-        sec = this->int2char(second(t));
-
-        char msg[40];
-        sprintf(msg,"%s%s%s,%s,%s:%s:%s,%s:%s:%s",y,mon,d,digit,h,min,sec,y,mon,d);
+        Serial.println("a != 0");
+        a = 0;
+        if(!getLocalTime(&timeinfo))
+        {
+            Serial.println("Failed to obtain time");
+            return "ERR";
+        }
+        //char* digit = this->int2char(size);
+        char* digit = this->int2char(a);
+        char d[10]; strftime(d,10,"%Y:%m:%d",&timeinfo);
+        char t[10]; strftime(t,10,"%H:%M:%S",&timeinfo);
+        char key[8]; strftime(key,8,"%Y%m%d",&timeinfo);
+        char msg[32]; sprintf(msg,"%s/,%s/,%s/,%s",d,digit,t,key);
         return msg;
+
     }
-    return "ERR";
+    else{
+        Serial.print("a = 0");
+        return "ERR";
+    }
 }
 
 char* PinCheck::int2char(int i)
