@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "Data.h"
 
 unsigned short Data::GetPS()
