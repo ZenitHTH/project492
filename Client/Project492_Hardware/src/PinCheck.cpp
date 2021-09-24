@@ -1,4 +1,5 @@
 #include "PinCheck.h"
+#include <Arduino.h>
 
 
 PinCheck::PinCheck(void)
@@ -22,4 +23,27 @@ void PinCheck::Insert(Board now)
         this->before = this->after;
         this->after = now;
     }
+}
+
+void PinCheck::CheckDiffrent()
+{
+    //check boardsize
+    if(this->after.len_x == this->before.len_x && this->after.len_y == this->before.len_y)
+    {
+        bool **isPin_after = this->after.PinDetect();
+        bool **isPin_before = this->before.PinDetect();
+        for(uint8_t i=0;i<this->after.len_x;i++)
+        {
+            for(uint8_t j=0;j<this->before.len_y;j++)
+            {
+                
+                if(isPin_after[i][j] != isPin_before[i][j]) 
+                {
+                    local l; l.i = i; l.j = j;
+                    diff.add(l);
+                }
+            }
+        }
+    }
+    
 }
