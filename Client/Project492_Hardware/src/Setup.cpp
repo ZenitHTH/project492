@@ -1,6 +1,5 @@
 #include "Setup.h"
-#define DEVICE_COL  4
-#define DEVICE_ROW  4 
+
 
 void TCA9548A(uint8_t bus,uint8_t address)
 {
