@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "esp32-hal.h": "c",
+        "array": "cpp",
+        "string": "cpp",
+        "new": "cpp"
+    }
+}

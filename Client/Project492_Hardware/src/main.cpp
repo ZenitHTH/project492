@@ -29,6 +29,8 @@ PinCheck pincheck;
 const uint8_t tcaAddr[2] = {0x71,0x70};
 pin **p;
 
+
+void freeBoard(Board);
 void WiFi_Setup();
 void Reconnect();
 //char* f2char(double);
@@ -44,32 +46,58 @@ void setup()
   WiFi_Setup();
 
   //Get the time
-  configTime(7*60*60,3600,"time.navy.mi.th");
+  configTime(7*60*60,3600,"pool.ntp.org");
   p = MatchSensor(tcaAddr,DEVICE_ROW,DEVICE_COL);
   SetupSensor(p,rpr0521rs);
 }
 
+//buffer overflow
 void loop()
 {
+  Serial.println("Main 0");
   Board board;
   char* msg;
   struct tm timeinfo;
+  Serial.println("Main 01");
   if(!client.connected())
   {
     Reconnect();
   }
+  Serial.println("Main 1");
+  if(!getLocalTime(&timeinfo))
+  {
+    Serial.println("Failed to obtain time");
+    return;
+  }
+  Serial.println("Main 2");
   client.loop();
-  delay(2000);
+  Serial.println("Main 3");
+
   board = GetValue(p,rpr0521rs);
-
+  Serial.println("Main 4");
+  board.PrintStatus();
+  Serial.println("Main 5");
   pincheck.Insert(board);
+  //Serial.println("Main 1");
+  //freeBoard(board);
+  //Serial.println("Main 2");
 
-  pincheck.CheckDiffrent();
-  msg = pincheck.PublishData(timeinfo);
+  char d[10]; strftime(d,10,"%Y:%m:%d",&timeinfo);
+  char t[10]; strftime(t,10,"%H:%M:%S",&timeinfo);
+  char key[8]; strftime(key,8,"%Y%m%d",&timeinfo);
+  Serial.println("Main 6");
+  msg = pincheck.PublishData(d,t,key);
+  Serial.println("Main 7");
   Serial.print(msg);
   if(msg != "ERR") client.publish("toys/test",msg,true);
-  board.PrintStatus();
-  delay(500);
+  Serial.println("Main 8");
+  delay(10000);
+}
+
+void freeBoard(Board b)
+{
+  b.DeleteData();
+  b.DeleteLen();
 }
 
 
