@@ -5,11 +5,11 @@
 #include "Data.h"
 #include "Board.h"
 #include "Pin.h"
-#include "PinCheck.h"
+//#include "PinCheck.h"
 #include <WiFi.h>
 #include <WiFiManager.h> 
 #include <PubSubClient.h>
-#include <time.h>
+//#include <time.h>
 
 #define DEVICE_COL  4
 #define DEVICE_ROW  4 
@@ -17,13 +17,12 @@
 #define mqtt_port         15342
 #define mqtt_user         "qyuzvafp"
 #define mqtt_pass         "0ynj_3e3rzJ6"
-#define topic             "toys/test"
+#define topic             "toys/test"         
 
 WiFiManager wm;
 WiFiClient espClient;
 PubSubClient client(espClient);
 RPR0521RS rpr0521rs[DEVICE_ROW][DEVICE_COL];
-PinCheck pincheck;
 
 
 const uint8_t tcaAddr[2] = {0x71,0x70};
@@ -44,9 +43,15 @@ void setup()
   Wire.begin();
   //WiFi Setup
   WiFi_Setup();
-
+  //WiFi.begin("Somsak_2.4G","0853955666");
+  // while (WiFi.status() != WL_CONNECTED) {
+  //   delay(1000);
+  //   Serial.println("Establishing connection to WiFi..");
+  // }
+  // Serial.println("Connected to network");
+ 
   //Get the time
-  configTime(7*60*60,3600,"pool.ntp.org");
+  //configTime(7*60*60,3600,"pool.ntp.org");
   p = MatchSensor(tcaAddr,DEVICE_ROW,DEVICE_COL);
   SetupSensor(p,rpr0521rs);
 }
@@ -54,43 +59,46 @@ void setup()
 //buffer overflow
 void loop()
 {
-  Serial.println("Main 0");
+  //Serial.println("Main 0");
   Board board;
-  char* msg;
-  struct tm timeinfo;
-  Serial.println("Main 01");
+  char msg[17];
+  //Serial.println("Main 01");
   if(!client.connected())
   {
     Reconnect();
   }
-  Serial.println("Main 1");
-  if(!getLocalTime(&timeinfo))
-  {
-    Serial.println("Failed to obtain time");
-    return;
-  }
-  Serial.println("Main 2");
-  client.loop();
-  Serial.println("Main 3");
-
-  board = GetValue(p,rpr0521rs);
-  Serial.println("Main 4");
-  board.PrintStatus();
-  Serial.println("Main 5");
-  pincheck.Insert(board);
   //Serial.println("Main 1");
-  //freeBoard(board);
   //Serial.println("Main 2");
+  client.loop();
+  //Serial.println("Main 3");
+  board = GetValue(p,rpr0521rs);
+  //Serial.println("Main 4");
+  //board.PrintStatus();
+  //Serial.println("Main 5");
 
-  char d[10]; strftime(d,10,"%Y:%m:%d",&timeinfo);
-  char t[10]; strftime(t,10,"%H:%M:%S",&timeinfo);
-  char key[8]; strftime(key,8,"%Y%m%d",&timeinfo);
-  Serial.println("Main 6");
-  msg = pincheck.PublishData(d,t,key);
-  Serial.println("Main 7");
+  //Serial.println("Main 6");
+  uint8_t k = 0;
+  bool** pinStatus = board.PinDetect();
+  for(uint8_t i=0;i<board.len_x;i++)
+  {
+    for(uint8_t j=0;j<board.len_y;j++)
+    {
+      if(pinStatus[i][j] == true)
+      {
+        msg[k]='1';
+        k++;
+      }
+      else 
+      {
+        msg[k]='0';
+        k++;
+      }
+    }
+  }
+
   Serial.print(msg);
-  if(msg != "ERR") client.publish("toys/test",msg,true);
-  Serial.println("Main 8");
+  if(msg != "ERR") client.publish("toys/publish",msg,true);
+  Serial.println("Main 7");
   delay(10000);
 }
 
@@ -99,7 +107,6 @@ void freeBoard(Board b)
   b.DeleteData();
   b.DeleteLen();
 }
-
 
 void WiFi_Setup()
 {

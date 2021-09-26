@@ -8,7 +8,9 @@
 class PinCheck
 {
     private :
-    Board before;
+    //Board before;
+    bool** before;
+    uint8_t col,row;
     // struct local
     // {
     //     uint8_t i;
@@ -18,11 +20,10 @@ class PinCheck
     // LinkedList<local> diff;
     uint8_t a = 0;
     char* int2char(int);
-    void ReplaceBoard(Board);
-    void CheckDiffrent(Board);
+    bool CheckDiffrent(Board);
 
     public :
-    PinCheck(void);
+    PinCheck(uint8_t,uint8_t);
     void Insert(Board);
     
     char* PublishData(char*, char*, char*);
