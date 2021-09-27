@@ -11,13 +11,14 @@
 #include <PubSubClient.h>
 #include <time.h>
 
-#define DEVICE_COL  4
-#define DEVICE_ROW  4 
+#define DEVICE_COL        4
+#define DEVICE_ROW        4 
 #define mqtt_server       "m24.cloudmqtt.com"
 #define mqtt_port         15342
 #define mqtt_user         "qyuzvafp"
 #define mqtt_pass         "0ynj_3e3rzJ6"
 #define topic             "toys/test"         
+#define deLay             10000u
 
 WiFiManager wm;
 WiFiClient espClient;
@@ -50,12 +51,11 @@ void setup()
   WiFi_Setup();
 
   //Get the time
-  configTime(7*60*60,3600,"time.navy.mi.th");
+  configTime(6*60*60,3600,"0.th.pool.ntp.org");
   p = MatchSensor(tcaAddr,DEVICE_ROW,DEVICE_COL);
   SetupSensor(p,rpr0521rs);
 }
 
-//buffer overflow
 void loop()
 {
   Board board = GetValue(p,rpr0521rs);;
@@ -98,14 +98,14 @@ void loop()
   char tm_m[3]; strftime(tm_m,3,"%m",&timeinfo);
   char tm_d[3]; strftime(tm_d,3,"%d",&timeinfo);
   //char d[11]; strftime(d,11,"%Y:%m:%d",&timeinfo);
-  char t[11]; strftime(t,11,"%H:%M:%S",&timeinfo);
+  char t[9]; strftime(t,9,"%H:%M:%S",&timeinfo);
   //char key[9]; strftime(key,9,"%Y%m%d",&timeinfo);
-  char msg[37];
+  char msg[40];
   sprintf(msg,"%s:%s:%s,%d,%s,%s%s%s",tm_Y,tm_m,tm_d,diffrent,t,tm_Y,tm_m,tm_d);
 
   Serial.println(msg);
   client.publish("toys/test",msg,true);
-  delay(10000);
+  delay(deLay);
 }
 
 void WiFi_Setup()
