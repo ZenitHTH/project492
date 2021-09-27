@@ -54,7 +54,7 @@ bool** Board::PinDetect()
             pinStatus[i] = new bool [this->len_y];
             for(uint8_t j=0;j<this->len_y;j++)
             {
-                if(data[i][j].GetAls() < 10.00) pinStatus[i][j] = true;
+                if(data[i][j].GetPS() > 180.00f) pinStatus[i][j] = true;
                 else pinStatus[i][j] = false;
             }
         }
