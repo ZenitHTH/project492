@@ -16,8 +16,11 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, message):
     print(str(message.topic),":",str(message.payload.decode("utf-8")))
-    data = str(message.payload.decode("utf-8")).split(",")
-    sql.InsertRTD(datekey=data[0],score=data[1],time=data[2],dmy=data[3],prikey=(data[3]+data[2]).replace(":",""))
+    try:
+    	data = str(message.payload.decode("utf-8")).split(",")
+    	sql.InsertRTD(datekey=data[0],score=data[1],time=data[2],dmy=data[3],prikey=(data[3]+data[2]).replace(":",""))
+    except:
+    	print("Format is Wrong")
     global todaykey
     if todaykey != data[0]:
         todaykey = data[0]
