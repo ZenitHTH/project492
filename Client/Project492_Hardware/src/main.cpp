@@ -18,7 +18,7 @@
 #define mqtt_user         "qyuzvafp"
 #define mqtt_pass         "0ynj_3e3rzJ6"
 #define topic             "toys/test"         
-#define deLay             10000u
+#define deLay             59999u
 
 WiFiManager wm;
 WiFiClient espClient;
