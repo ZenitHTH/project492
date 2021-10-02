@@ -5,16 +5,16 @@
         "port":3306,
         "name":"data",
         "username":"root",
-        "password":"#$%Runner01"
+        "password":"yourpassword"
     },
     "mqttServer":
     {
         "login":
         {
-            "host":"m24.cloudmqtt.com",
-            "username":"qyuzvafp",
-            "password":"0ynj_3e3rzJ6",
-            "port":15342
+            "host":"the_mqtt_host",
+            "username":"usernamemqtt",
+            "password":"passwordmqtt",
+            "port":12345
         },
         "makeTDTime":
         {
