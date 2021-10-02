@@ -2,9 +2,9 @@ FROM mysql:latest
 ENV TZ=Asia/Bangkok
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ENV MYSQL_ROOT_PASSWORD #$%Runner01
+ENV MYSQL_ROOT_PASSWORD yourpassword
 ENV MYSQL_USER zenithth
-ENV MYSQL_PASSWORD #$%Runner01
+ENV MYSQL_PASSWORD yourpassword
 ADD database.sql /root
 ADD mqttServer.py /root
 ADD mysqlConnect.py /root
@@ -17,7 +17,7 @@ RUN apt update
 RUN apt install -y python3 python3-pip vim openjdk-11-jre wget
 RUN pip3 install paho-mqtt pymysql
 RUN wget -P /root https://downloads.metabase.com/v0.40.5/metabase.jar
-RUN mysql -u root -p#$%Runner01 < database.sql
+RUN mysql -u root -pyourpassword < database.sql
 RUN javac -jar /root/metabase.jar &
 RUN python3 /root/mqttServer.py
 
