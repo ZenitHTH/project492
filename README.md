@@ -15,9 +15,10 @@ and finally, connect by following this picture
 and dont forget connect 2-i2c to microcontroller and connect power to 16 proximity sensor, 2-i2c multiplexer and a microcontroller
  
 ### Server how to runserver
-1. create docker image form dockerfile.
-2. if have an error add database and run it yourself run command "python3 /root/mqttserver.py" and "java -jar /root/metabase.jar".
-3. use browser entry http://localhost:3000 to run metabase and setting yourself that is easy.
+1. create docker image form dockerfile but create a password for your database in that file.
+2. add your host mqtt server , username , password and port for mqttserver in file setting.json for running python3 file
+3. if have an error add database and run it yourself run command "python3 /root/mqttserver.py" and "java -jar /root/metabase.jar".
+4. use browser entry http://localhost:3000 to run metabase and setting yourself that is easy.
 
 ### how to use
 1. running server first.
