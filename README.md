@@ -9,7 +9,7 @@
 
 ### Client Hardware
 first, this project must have sensor rpr-0521rs proximity senror 16pices and 2 tca9548a i2c multiplexer 2pices 
-second, i recommend use firebeetle esp32-e becase use too much memory 
+second, i recommend use firebeetle esp32-e becase use too much memory and it have 2 i2c port buildin
 and finally, connect by following this picture
 ![Circuit Diagram](https://github.com/ZenitHTH/project492/blob/main/Client/Circuit-1.png?raw=true)
 and dont forget connect 2-i2c to microcontroller and connect power to 16 proximity sensor, 2-i2c multiplexer and a microcontroller
