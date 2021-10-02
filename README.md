@@ -2,6 +2,9 @@
 
 ##### Warning i am very weak grammer sorry.
 
+This project is creating the toy collect data from autistic child to help doctor analytic to measure child development
+and this project for my granduation project
+
 ### Client directory
 1. cmdtest.py is simulation microcontroller push somedata to debug mqttserver.
 2. project_hardware492 is platformio arduino framework develop microcontroller.
