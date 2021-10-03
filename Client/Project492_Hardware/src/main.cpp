@@ -101,7 +101,7 @@ void loop()
   char t[9]; strftime(t,9,"%H:%M:%S",&timeinfo);
   //char key[9]; strftime(key,9,"%Y%m%d",&timeinfo);
   char msg[40];
-  sprintf(msg,"%s:%s:%s,%d,%s,%s%s%s",tm_Y,tm_m,tm_d,diffrent,t,tm_Y,tm_m,tm_d);
+  sprintf(msg,"%s%s%s,%d,%s,%s:%s:%s",tm_Y,tm_m,tm_d,diffrent,t,tm_Y,tm_m,tm_d);
 
   Serial.println(msg);
   client.publish("toys/test",msg,true);
