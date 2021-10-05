@@ -1,0 +1,27 @@
+{
+    "database":
+    {
+        "host":"10.10.0.2",
+        "port":3306,
+        "name":"data",
+        "username":"root",
+        "password":"yourpassword"
+    },
+    "mqttServer":
+    {
+        "login":
+        {
+            "host":"mqttserver",
+            "username":"user",
+            "password":"yourpassword",
+            "port":1883
+        },
+        "makeTDTime":
+        {
+            "hr":23,
+            "min":59,
+            "second":59
+        },
+        "subscribe":"toys/test"
+    }
+}

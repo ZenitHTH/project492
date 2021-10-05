@@ -39,25 +39,26 @@ def InsertRTD(datekey,score,time,dmy,prikey):
     else : 
         # New DataBase score int,time time,dmy date, datekey unsigned(uniqukey),prikey varchar100(primerykey)
         #sql = f"INSERT INTO RealTimeData(datekey,score,time,dmy) VALUES({(datakey)},{(score)},\"{str(time)}\",\"{str(dmy)}\");"
-        try:
-        	sql = f"INSERT INTO RealTimeData(score,dtime,dmy,datekey,prikey) VALUES({str(score)},\'{str(time)}\',\'{str(dmy)}\',{str(datekey)},{str(prikey)});"
-        	#print(sql)
-        	cursor.execute(sql)
-        except (pymysql.Error) as e:
-        	print(e)
-        db.commit()
+            try :
+                sql = f"INSERT INTO RealTimeData(score,dtime,dmy,datekey,prikey) VALUES({str(score)},\'{str(time)}\',\'{str(dmy)}\',{str(datekey)},{str(prikey)});"
+                cursor.execute(sql)
+                db.commit()
+            except (pymysql.Error) as e :
+                print(e)
+            
+        
 
 def InsertTD(datakey,score,dmy):
     if datakey == None or score == None or dmy == None:
         print("ERROR")
     else :
-  	try:
-        	# new DataBase datekey int unsigned (primarykey) ,scorepermin float , dmy date~
-        	sql = f"INSERT INTO TimeData(datekey,scorepermin,dmy) VALUES({datakey},{score},\'{dmy}\');"
-        	cursor.execute(sql)
-        	db.commit()
+        try:
+            # new DataBase datekey int unsigned (primarykey) ,scorepermin float , dmy date~
+            sql = f"INSERT INTO TimeData(datekey,scorepermin,dmy) VALUES({datakey},{score},\'{dmy}\');"
+            cursor.execute(sql)
+            db.commit()
         except (pymysql.Error) as e:
-        	print(e)
+            print(e)
 
 def ShowRTD(datekey):
     sql = f"SELECT score,dmy FROM RealTimeData WHERE datekey = \'{str(datekey)}\';"
